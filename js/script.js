@@ -10,25 +10,61 @@
 	MATCH.STATE.rows = 4; 
 
 	MATCH.STATE.board = []; 	// variables up in object scope so they can be shared by function down in scope
+
+	MATCH.UTIL = {}; 
+
+	// UTIL function from Minesweeper from some place on the internet 
+	MATCH.UTIL.random = function (min, max) {
+		if (max == null) {
+			max = min; 
+			min = 0; 
+		}
+		return min + Math.floor(Math.random() * (max - min + 1)); 
+	}
+
+	MATCH.UTIL.loop2D = function (array, rowFunction, colFunction) {
+
+		var rows = MATCH.STATE.rows; 
+		var cols = MATCH.STATE.columns;  
+		for (row = 0; row < rows; row += 1) {
+			rowFunction(array); 
+			for (column = 0; column < cols; column += 1) {
+				colFunction(array);  
+			}
+		} 
+		return array;
+
+	}
 	
 	MATCH.STATE.cards = function () {
-		// store cards here
+		// store cards here t
 	}
 
 	MATCH.STATE.populateBoard = function (board, columns, rows) {
-		// init 2d array with objects 
-		var cardObject; 
-		for (row = 0; row < rows; row += 1) {
-			board[row] = []; 
-			for (column = 0; column < columns; column += 1) {
-				cardObject = {
-					active: false, 
-					content: "string of content",
-					pairGroup: 'position: ' + row + ' - ' + column
-				}; 
-				board[row].push(cardObject);
-			}
+		
+
+		var initRowArray = function (array) {
+			array[row] = []; 
 		}
+
+		var initColObj = function (array) {
+			cardObject = {
+				active: false, 
+				content: "string of content",
+				position: { row: row, column: column }, 
+				pairGroup: 0
+			}; 
+			array[row].push(cardObject);
+		}
+
+		MATCH.UTIL.loop2D(board, initRowArray, initColObj); 
+
+
+
+
+
+		console.log(board);
+
 		return board; 
 	};
 
@@ -48,7 +84,27 @@
 
 				// keep going until there is none 
 
-		var totalPairs = board.length * board[0].length / 2; 
+		// LETS MEMOIZ THIS MOTHERFUCKER! 
+
+		var rows = board.length
+		var columns = board[0].length
+
+		for (row = 0; row < rows; row += 1) {
+			for (column = 0; column < columns; column += 1) {
+
+			}
+		}
+
+		var positions = [];
+
+		
+
+		var totalPairs = rows * columns / 2; 
+
+		
+		
+
+
 
 		console.log(totalPairs); 
 
