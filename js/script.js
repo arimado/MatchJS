@@ -22,9 +22,9 @@
 		return min + Math.floor(Math.random() * (max - min + 1)); 
 	}
 
-	MATCH.UTIL.loop2D = function (array, rowFunction, colFunction) {
+	MATCH.UTIL.loop2D = function (array, loopSpec) {
 
-		var rows = MATCH.STATE.rows; 
+		var rows = loopSpec.; 
 		var cols = MATCH.STATE.columns;  
 		for (row = 0; row < rows; row += 1) {
 			rowFunction(array); 
@@ -57,7 +57,7 @@
 			array[row].push(cardObject);
 		}
 
-		MATCH.UTIL.loop2D(board, initRowArray, initColObj); 
+		MATCH.UTIL.loop2D(board, {rowFunction: initRowArray, colFunction: initColObj, columns: columns, rows: rows}); 
 
 
 
