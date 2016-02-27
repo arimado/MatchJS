@@ -5,13 +5,13 @@ Match JS is a Matching Pairs card game about JavaScript.
 #### Architecture
 ----
 
-MAtch JS will focus on a declartive approach to programming and sperate the Application with its Engine. Putting priority on readability and maintainability.
+MAtch JS will focus on a declarative approach to programming and sperate the Application with its Engine. Putting priority on readability and maintainability.
 
 Declartive Rules: 
 
 - Call a createElement function to write individual DOM nodes to the container - one at a time.
 - Do not re-use the array. Make a new array tp draw from each time instead of tweeking small parts. 
-- Think about 'How you would write this if Performance was not an issue?'
+- Think about 'How you would write this if Performance was not an issue?' 
 
 ----
 
