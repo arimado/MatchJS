@@ -6,8 +6,8 @@
 	MATCH.RENDER = {}; 
 	MATCH.ACTION = {}; 
 
-	MATCH.STATE.columns = 2; 
-	MATCH.STATE.rows = 2; 
+	MATCH.STATE.columns = 6; 
+	MATCH.STATE.rows = 4; 
 
 	MATCH.STATE.board = []; 
 
@@ -22,6 +22,7 @@
 	}
 
 	MATCH.UTIL.init1DArray = function (array, loopSpec) {
+
 		var rows = loopSpec.cols; 
 		var cols = loopSpec.rows; 
 		var totalObjects = rows * cols; 
@@ -42,38 +43,41 @@
 				content: "string of content",
 				pairGroup: 0
 			}; 
-			array.push(cardObject);
+			array.push(cardObject); 
 		} 
 		MATCH.UTIL.init1DArray(board, {loopFunction: initColObj, cols: columns, rows: rows});  
 		return board;
 	}; 
 
 	MATCH.STATE.populatePairs = function (populatedBoard) { 
+		console.log('MATCH.STATE.populatePairs -------- ');
 
-		var totalObjects = populatedBoard.length;
-		var totalPairs = totalObjects / 2; 
+		var totalObjects = populatedBoard.length; 
+		var positions = []; 
+		var totalPositions; 
 
-		while (totalPairs > 0) {
+		for (i = 0; i < totalObjects; i += 1) positions.push(i); 
 
-			var randomNum1 = MATCH.UTIL.random(0, totalPairs - 1); 
-			var randomNum2 = MATCH.UTIL.random(0, totalPairs - 1); 
+		totalPositions = positions.length; 
 
-			var currentCard1 = populatedBoard[randomNum1].pairGroup;
-			var currentCard2 = populatedBoard[randomNum2].pairGroup;
+		for (i = 0; i < totalObjects; i += 1) {
 
-			if ((currentCard1 === 0) && (currentCard2 === 0)) {
+			var randNumPositionArray = MATCH.UTIL.random(0, positions.length - 1); 
+			// console.log(randPosition); 
+			var randNumFullArray = MATCH.UTIL.random(0, totalObjects - 1); 
+			// console.log(randNumFullArray); 
+			var randPosition = positions[randNumPositionArray]; 
 
-				console.log(randomNum1);
-				console.log(randomNum2); 
+			if (isNaN(populatedBoard[randNumFullArray])) {
+				populatedBoard[randNumFullArray] = randPosition; 
+			}	
 
-				populatedBoard[randomNum1].pairGroup = totalPairs + 1; 
-				populatedBoard[randomNum2].pairGroup = totalPairs + 1;
-				
-			}
+			positions.splice(randNumPositionArray, 1); 
 
-			totalPairs = totalPairs - 1; 
+			console.log(randPosition);
+			console.log(positions); 
 		}
-
+		
 		return populatedBoard; 
 	};
 
@@ -100,6 +104,7 @@
 		var populatedBoard = MATCH.STATE.populateBoard(board, col, row);
 		var matchedBoard = MATCH.STATE.populatePairs(populatedBoard);
 
+		console.log('MATCH.ACTION.init -------- ');
 		console.dir(matchedBoard); 
 
 	};
