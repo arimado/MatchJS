@@ -71,6 +71,10 @@
 		return populatedBoard; 
 	}; 
 
+	MATCH.STATE.update = function (matchedBoard) {
+
+	}; 
+
 	MATCH.RENDER.init = function (matchedBoard) { 
 
 		var wrapDiv = document.getElementById('wrap');
@@ -109,7 +113,19 @@
 		return gameElement; 
 	};
 
-	MATCH.ACTION.cardClick = function (gameElement) {
+	MATCH.RENDER.update = function (matchedBoard) {
+
+		// update whatever data you have
+
+		// use the reference data on line 139 to change up the data 
+
+		// use MATCH.STATE.Update to get change data
+
+		// use MATCH.RENDER.Update to change view 
+
+	}
+
+	MATCH.ACTION.cardClick = function (matchedBoard) {
 
 		// change the state to active for only a few seconds
 		// if pairGroup match then change the string of content to found on those two groups 
@@ -120,7 +136,6 @@
 
 		var cardClick = function () {
 			cardsActive === 2 ? cardsActive = 2 : cardsActive += 1; 
-			console.log(cardsActive);  
 			console.log('you clicked - ' + this.idNumber); 
 		}
 
@@ -128,11 +143,13 @@
 			card.addEventListener('click', cardClick); 
 		}
 
-		forEach.apply(cardElements, [addListeners]);  
+		forEach.apply(cardElements, [addListeners]); 
 
-		
-
+		return matchedBoard; 
 	};
+
+
+	}
 
 	MATCH.ACTION.init = function () {
 		
@@ -144,7 +161,7 @@
 		var matchedBoard = MATCH.STATE.populatePairs(populatedBoard);
 		var gameElement = MATCH.RENDER.init(matchedBoard);
 
-		MATCH.ACTION.cardClick(gameElement); 
+		MATCH.ACTION.cardClick(matchedBoard); 
 
 	};
 
