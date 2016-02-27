@@ -9,11 +9,10 @@
 	MATCH.STATE.columns = 10; 
 	MATCH.STATE.rows = 4; 
 
-	MATCH.STATE.board = []; 	// variables up in object scope so they can be shared by function down in scope
+	MATCH.STATE.board = []; 
 
 	MATCH.UTIL = {}; 
 
-	// UTIL function from Minesweeper from some place on the internet 
 	MATCH.UTIL.random = function (min, max) {
 		if (max == null) {
 			max = min; 
@@ -23,7 +22,6 @@
 	}
 
 	MATCH.UTIL.loop2D = function (array, loopSpec) {
-
 		var rows = loopSpec.; 
 		var cols = MATCH.STATE.columns;  
 		for (row = 0; row < rows; row += 1) {
@@ -33,7 +31,6 @@
 			}
 		} 
 		return array;
-
 	}
 	
 	MATCH.STATE.cards = function () {
@@ -42,7 +39,6 @@
 
 	MATCH.STATE.populateBoard = function (board, columns, rows) {
 		
-
 		var initRowArray = function (array) {
 			array[row] = []; 
 		}
@@ -57,58 +53,13 @@
 			array[row].push(cardObject);
 		}
 
-		MATCH.UTIL.loop2D(board, {rowFunction: initRowArray, colFunction: initColObj, columns: columns, rows: rows}); 
-
-
-
-
-
 		console.log(board);
 
 		return board; 
 	};
 
-	MATCH.STATE.populatePairs = function (board) {
+	MATCH.STATE.populatePairs = function () {
 
-		// randomly create pairs in array 
-
-		// 2d array length
-
-		// half the number
-
-		// put double of every number in the board 
-
-			// randomise using a UTIL function first 
-
-				//if empty pairGroup place property if not continue looking for empty pairGroup 
-
-				// keep going until there is none 
-
-		// LETS MEMOIZ THIS MOTHERFUCKER! 
-
-		var rows = board.length
-		var columns = board[0].length
-
-		for (row = 0; row < rows; row += 1) {
-			for (column = 0; column < columns; column += 1) {
-
-			}
-		}
-
-		var positions = [];
-
-		
-
-		var totalPairs = rows * columns / 2; 
-
-		
-		
-
-
-
-		console.log(totalPairs); 
-
-		return board; 
 	}
 
 	MATCH.RENDER.drawBoard = function () {
@@ -127,8 +78,6 @@
 
 	MATCH.ACTION.init = function () {
 		// init your shit mate 
-
-		MATCH.STATE.populatePairs(MATCH.STATE.populateBoard(MATCH.STATE.board, MATCH.STATE.columns, MATCH.STATE.rows)); 
 
 	};
 
