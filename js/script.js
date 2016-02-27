@@ -116,18 +116,21 @@
 
 		var cardElements = document.getElementsByClassName('card'); 
 		var cardsActive = 0; 
+		var forEach = Array.prototype.forEach;
 
 		var cardClick = function () {
-
-			cardsActive > 2 ? cardsActive = 2 : cardsActive += 1; 
-			console.log(cardsActive); 
+			cardsActive === 2 ? cardsActive = 2 : cardsActive += 1; 
+			console.log(cardsActive);  
+			console.log('you clicked - ' + this.idNumber); 
 		}
 
-		console.dir(cardElements); 
+		var addListeners = function (card) {
+			card.addEventListener('click', cardClick); 
+		}
 
-		// cardElements.forEach( function (card) {
-			
-		// }); 
+		forEach.apply(cardElements, [addListeners]);  
+
+		
 
 	};
 
