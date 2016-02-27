@@ -75,6 +75,8 @@
 
 		var wrapDiv = document.getElementById('wrap');
 		var gameElement = document.createElement('div'); 
+		var idNumber = 0; 
+		var state = 0; 
 
 		wrapDiv.appendChild(gameElement); 
 
@@ -89,31 +91,44 @@
 			currentCardState.innerHTML = card.active; 
 			currentCardContent.innerHTML = card.content; 
 
+			currentCardElement.idNumber = idNumber;
 			currentCardElement.className = 'card';
 			currentCardPairGroup.className = 'pairGroup'; 
 
+			// currentCardElement.addEventListener('click', MATCH.ACTION.cardClick(gameElement)); 
 
 			gameElement.appendChild(currentCardElement); 
 
 			currentCardElement.appendChild(currentCardPairGroup);
 			currentCardElement.appendChild(currentCardState);  
-			currentCardElement.appendChild(currentCardContent);  
+			currentCardElement.appendChild(currentCardContent); 
 
+			idNumber += 1; 
 		}); 
-	}
 
-	MATCH.RENDER.drawBoard = function () {
-		// Get the HTML elements in there 
+		return gameElement; 
 	};
 
-	MATCH.RENDER.paintBoard = function () {
-		// get the HTML data in there 
-	};
+	MATCH.ACTION.cardClick = function (gameElement) {
 
-	MATCH.ACTION.cardClicks = function () {
-		// state changes
-		// compare active pair functions 
-		// repaint ? 
+		// change the state to active for only a few seconds
+		// if pairGroup match then change the string of content to found on those two groups 
+
+		var cardElements = document.getElementsByClassName('card'); 
+		var cardsActive = 0; 
+
+		var cardClick = function () {
+
+			cardsActive > 2 ? cardsActive = 2 : cardsActive += 1; 
+			console.log(cardsActive); 
+		}
+
+		console.dir(cardElements); 
+
+		// cardElements.forEach( function (card) {
+			
+		// }); 
+
 	};
 
 	MATCH.ACTION.init = function () {
@@ -124,8 +139,10 @@
 
 		var populatedBoard = MATCH.STATE.populateBoard(board, col, row);
 		var matchedBoard = MATCH.STATE.populatePairs(populatedBoard);
+		var gameElement = MATCH.RENDER.init(matchedBoard);
 
-		MATCH.RENDER.init(matchedBoard);
+		MATCH.ACTION.cardClick(gameElement); 
+
 	};
 
 	MATCH.ACTION.init(); 
