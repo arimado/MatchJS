@@ -79,20 +79,26 @@
 		wrapDiv.appendChild(gameElement); 
 
 		matchedBoard.forEach( function (card) {
+
 			var currentCardElement = document.createElement('div');
 			var currentCardPairGroup = document.createElement('p'); 
 			var currentCardState = document.createElement('p'); 
 			var currentCardContent = document.createElement('p'); 
 
-			currentCardPairGroup.innerHTML = card.pairGroup; 
+			currentCardPairGroup.innerHTML = card.pairGroup; 	
 			currentCardState.innerHTML = card.active; 
 			currentCardContent.innerHTML = card.content; 
+
+			currentCardElement.className = 'card';
+			currentCardPairGroup.className = 'pairGroup'; 
+
 
 			gameElement.appendChild(currentCardElement); 
 
 			currentCardElement.appendChild(currentCardPairGroup);
 			currentCardElement.appendChild(currentCardState);  
 			currentCardElement.appendChild(currentCardContent);  
+
 		}); 
 	}
 
