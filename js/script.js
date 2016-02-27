@@ -49,34 +49,29 @@
 		return board;
 	}; 
 
-	MATCH.STATE.populatePairs = function (populatedBoard) { 
+	MATCH.STATE.populatePairs = function (populatedBoard) {
+
 		console.log('MATCH.STATE.populatePairs -------- ');
 
 		var totalObjects = populatedBoard.length; 
-		var positions = []; 
+		var positions = [];  
 		var totalPositions; 
 
-		for (i = 0; i < totalObjects; i += 1) positions.push(i); 
+		for (i = 0; i < totalObjects / 2; i += 1) positions.push(i);
+		for (i = 0; i < totalObjects / 2; i += 1) positions.push(i); 
 
+		console.log(positions);
+		
 		totalPositions = positions.length; 
 
 		for (i = 0; i < totalObjects; i += 1) {
 
 			var randNumPositionArray = MATCH.UTIL.random(0, positions.length - 1); 
-			// console.log(randPosition); 
-			var randNumFullArray = MATCH.UTIL.random(0, totalObjects - 1); 
-			// console.log(randNumFullArray); 
 			var randPosition = positions[randNumPositionArray]; 
 
-			if (isNaN(populatedBoard[randNumFullArray])) {
-				populatedBoard[randNumFullArray] = randPosition; 
-			}	
-
+			populatedBoard[i].pairGroup = randPosition; 
 			positions.splice(randNumPositionArray, 1); 
-
-			console.log(randPosition);
-			console.log(positions); 
-		}
+		} 
 		
 		return populatedBoard; 
 	};
