@@ -71,11 +71,15 @@
 		return populatedBoard; 
 	}; 
 
-	MATCH.STATE.update = function (matchedBoard) {
-
+	MATCH.STATE.update = function (matchedBoard, cardID) {
+		var updatedBoard; 
+		console.log(matchedBoard[cardID]); 
+		matchedBoard[cardID].active = true;
+		updatedBoard = matchedBoard; 
+		return updatedBoard;  
 	}; 
 
-	MATCH.RENDER.init = function (matchedBoard) { 
+	MATCH.RENDER.createBoard = function (matchedBoard) { 
 
 		var wrapDiv = document.getElementById('wrap');
 		var gameElement = document.createElement('div'); 
@@ -113,43 +117,45 @@
 		return gameElement; 
 	};
 
-	MATCH.RENDER.update = function (matchedBoard) {
+	MATCH.RENDER.update = function (updatedBoard, gameElement) {
+		gameElement.remove();
+		MATCH.RENDER.createBoard(updatedBoard); 
+	}; 
 
-		// update whatever data you have
-
-		// use the reference data on line 139 to change up the data 
-
-		// use MATCH.STATE.Update to get change data
-
-		// use MATCH.RENDER.Update to change view 
-
-	}
-
-	MATCH.ACTION.cardClick = function (matchedBoard) {
-
-		// change the state to active for only a few seconds
-		// if pairGroup match then change the string of content to found on those two groups 
-
+	MATCH.ACTION.addEvents = function (matchedBoard, gameElement, eventCallback) {
+		
 		var cardElements = document.getElementsByClassName('card'); 
-		var cardsActive = 0; 
 		var forEach = Array.prototype.forEach;
 
-		var cardClick = function () {
-			cardsActive === 2 ? cardsActive = 2 : cardsActive += 1; 
-			console.log('you clicked - ' + this.idNumber); 
-		}
-
 		var addListeners = function (card) {
-			card.addEventListener('click', cardClick); 
+			card.addEventListener('click', MATCH.ACTION.cardClick); 
 		}
 
 		forEach.apply(cardElements, [addListeners]); 
+	}; 
 
-		return matchedBoard; 
+	MATCH.ACTION.cardClick = function (matchedBoard, gameElement) {
+
+		console.log('MATCH.ACTION.cardClick ----'); 
+
+		var cardsActive = 0; 
+
+		var that = this; 
+		console.log(that); 
+
+		return function () {
+			console.log('hi'); 
+
+			var clickedCardId = that.idNumber;  
+			cardsActive === 2 ? cardsActive = 2 : cardsActive += 1;
+			var updatedBoard = MATCH.STATE.update(matchedBoard, clickedCardId); 
+
+			MATCH.RENDER.update(updatedBoard, gameElement);  
+
+			console.log('you clicked - ' + clickedCardId); 
+		}();
+
 	};
-
-
-	}
 
 	MATCH.ACTION.init = function () {
 		
@@ -159,9 +165,9 @@
 
 		var populatedBoard = MATCH.STATE.populateBoard(board, col, row);
 		var matchedBoard = MATCH.STATE.populatePairs(populatedBoard);
-		var gameElement = MATCH.RENDER.init(matchedBoard);
-
-		MATCH.ACTION.cardClick(matchedBoard); 
+		var gameElement = MATCH.RENDER.createBoard(matchedBoard);
+		
+		MATCH.ACTION.addEvents(matchedBoard, gameElement, MATCH.ACTION.cardClick); 
 
 	};
 
