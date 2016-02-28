@@ -10,7 +10,9 @@
 	MATCH.STATE.rows = 4; 
 	MATCH.STATE.game = 0; 
 
-	MATCH.STATE.board = []; 
+	MATCH.STATE.board = [];
+	MATCH.STATE.totalCardsActive = 0;  
+	MATCH.STATE.activeCards; 
 
 	MATCH.UTIL = {}; 
 
@@ -51,7 +53,6 @@
 	}; 
 
 	MATCH.STATE.populatePairs = function (populatedBoard) {
-		console.log('MATCH.STATE.populatePairs -------- ');
 
 		var totalObjects = populatedBoard.length; 
 		var positions = [];  
@@ -75,11 +76,9 @@
 	MATCH.STATE.update = function (matchedBoard, cardID) {
 
 		var updatedBoard; 
-		console.log(matchedBoard[cardID]); 
 		matchedBoard[cardID].active = true;
 		updatedBoard = matchedBoard; 
 		return updatedBoard;
-
 	}; 
 
 	MATCH.RENDER.createBoard = function (matchedBoard) { 
@@ -124,11 +123,10 @@
 
 	MATCH.RENDER.update = function (updatedBoard, gameElement) {
 
-		console.log('match' + gameElement.id); 
 		document.getElementById(gameElement.id).remove();
 		MATCH.RENDER.createBoard(updatedBoard);
 		MATCH.ACTION.addEvents(updatedBoard, gameElement, MATCH.ACTION.cardClick); 
-		
+
 	}; 
 
 	MATCH.ACTION.addEvents = function (matchedBoard, gameElement, eventCallback) {
@@ -141,7 +139,6 @@
 		}
 
 		forEach.apply(cardElements, [addListeners]); 
-
 		var matchedEventBoard = matchedBoard; 
 
 		return matchedEventBoard; 
@@ -151,22 +148,26 @@
 
 		// context is element 
 		var that = this; 
-		var cardsActive = 0; 
 
 		return function () {
 
 			var clickedCardId = this.idNumber;  
-			cardsActive === 2 ? cardsActive = 2 : cardsActive += 1;
 
-			console.log(cardsActive); 
-			console.log('you clicked - ' + clickedCardId); 
+			if ( MATCH.STATE.totalCardsActive == 2 ) {
+				console.log('wait for the cooldown'); 
+			} else {
+				var updatedBoard = MATCH.STATE.update(matchedBoard, clickedCardId); 
+				MATCH.RENDER.update(updatedBoard, gameElement);
+			}
 
-			var updatedBoard = MATCH.STATE.update(matchedBoard, clickedCardId); 
-			MATCH.RENDER.update(updatedBoard, gameElement);
+			console.log('cards active - ' + MATCH.STATE.totalCardsActive); 
+			console.log('card ID - ' + clickedCardId); 
 
+			MATCH.STATE.totalCardsActive === 2 ? MATCH.STATE.totalCardsActive = 2 : MATCH.STATE.totalCardsActive += 1;
 		}; 
-
 	};
+
+	MATCH
 
 	MATCH.ACTION.init = function () {
 		
