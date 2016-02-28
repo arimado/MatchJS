@@ -8,6 +8,7 @@
 
 	MATCH.STATE.columns = 6; 
 	MATCH.STATE.rows = 4; 
+	MATCH.STATE.game = 0; 
 
 	MATCH.STATE.board = []; 
 
@@ -66,17 +67,19 @@
 			var randPosition = positions[randNumPositionArray];  
 			populatedBoard[i].pairGroup = randPosition; 
 			positions.splice(randNumPositionArray, 1); 
-		} 
+		}
 
 		return populatedBoard; 
 	}; 
 
 	MATCH.STATE.update = function (matchedBoard, cardID) {
+
 		var updatedBoard; 
 		console.log(matchedBoard[cardID]); 
 		matchedBoard[cardID].active = true;
 		updatedBoard = matchedBoard; 
-		return updatedBoard;  t
+		return updatedBoard;
+
 	}; 
 
 	MATCH.RENDER.createBoard = function (matchedBoard) { 
@@ -85,6 +88,8 @@
 		var gameElement = document.createElement('div'); 
 		var idNumber = 0; 
 		var state = 0; 
+
+		gameElement.id = 'match' + (MATCH.STATE.game + 1);
 
 		wrapDiv.appendChild(gameElement); 
 
@@ -118,16 +123,19 @@
 	};
 
 	MATCH.RENDER.update = function (updatedBoard, gameElement) {
-		gameElement.remove();
+
+		console.log('match' + gameElement.id); 
+		document.getElementById(gameElement.id).remove();
 		MATCH.RENDER.createBoard(updatedBoard);
 		MATCH.ACTION.addEvents(updatedBoard, gameElement, MATCH.ACTION.cardClick); 
+		
 	}; 
 
 	MATCH.ACTION.addEvents = function (matchedBoard, gameElement, eventCallback) {
 		
 		var cardElements = document.getElementsByClassName('card'); 
 		var forEach = Array.prototype.forEach;
-		
+
 		var addListeners = function (card) {
 			card.addEventListener('click', MATCH.ACTION.cardClick(matchedBoard, gameElement)); 
 		}
