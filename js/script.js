@@ -40,7 +40,8 @@
 			cardObject = {
 				active: false, 
 				content: "string of content",
-				pairGroup: 0
+				pairGroup: 0, 
+				found: false 
 			}; 
 			array.push(cardObject); 
 		} 
@@ -69,12 +70,38 @@
 		return populatedBoard; 
 	}; 
 
-	MATCH.STATE.update = function (matchedBoard, cardID) {
+	MATCH.STATE.activateClickedCards = function (matchedBoard, cardID) { 
+		
+		var updatedBoard;  
 
-		var updatedBoard; 
 		matchedBoard[cardID].active = true;
 		updatedBoard = matchedBoard; 
+
 		return updatedBoard;
+	}; 
+
+	MATCH.STATE.isPairFound = function (updatedBoard, activeCardsArray, clickedCardId) {
+
+		var pairsCheckedBoard; 
+		var card1, card2; 
+
+		if (activeCardsArray.length == 2) {
+
+			card1PairGroup = updatedBoard[activeCardsArray[0]].pairGroup; 
+			card2PairGroup = updatedBoard[activeCardsArray[1]].pairGroup; 
+
+			if (card1PairGroup === card2PairGroup) {
+				console.log('pair found'); 
+
+				return true; 
+
+			} else {
+				return false; 
+			}
+		} else {
+			return false;  
+		}
+
 	}; 
 
 	MATCH.RENDER.createBoard = function (matchedBoard) { 
@@ -117,8 +144,7 @@
 		return gameElement; 
 	};
 
-	MATCH.RENDER.update = function (updatedBoard, gameElement) {
-
+	MATCH.RENDER.updateElements = function (updatedBoard, gameElement) {
 		document.getElementById(gameElement.id).remove();
 		MATCH.RENDER.createBoard(updatedBoard);
 		MATCH.ACTION.addEvents(updatedBoard, gameElement, MATCH.ACTION.cardClick); 
@@ -127,7 +153,7 @@
 	MATCH.ACTION.addEvents = function (matchedBoard, gameElement, eventCallback) {
 		
 		var cardElements = document.getElementsByClassName('card'); 
-		var forEach = Array.prototype.forEach;
+		var forEach = Array.prototype.forEach; 
 
 		var addListeners = function (card) {
 			card.addEventListener('click', MATCH.ACTION.cardClick(matchedBoard, gameElement)); 
@@ -141,34 +167,53 @@
 
 	MATCH.ACTION.cardClick = function (matchedBoard, gameElement) {
 
-		// context is element 
-		var that = this;
-
 		return function () { 
+			var clickedCardId = this.idNumber;  // THIS! 
 
-			var clickedCardId = this.idNumber;  
+			// If two cards are already chosen 
 			if (( MATCH.STATE.activeCards.length > 1)) {
 				console.log('wait for the coolDown');
+
+			// If you are choosing the same card 
 			} else if (MATCH.STATE.activeCards[0] === clickedCardId) {
 				console.log('you already chose that');
+			
+			// If you are choosing 2 different cards 
 			} else {
-				var updatedBoard = MATCH.STATE.update(matchedBoard, clickedCardId); 
-				MATCH.RENDER.update(updatedBoard, gameElement);
-				MATCH.STATE.activeCards.push(clickedCardId); 
-				MATCH.ACTION.startCoolDownIfMaxCards(MATCH.STATE.activeCards.length); 
-			}
 
+				// update active cards 
+				MATCH.STATE.activeCards.push(clickedCardId); 
+
+				// update and render clicked Elements 
+				var updatedBoard = MATCH.STATE.activateClickedCards(matchedBoard, clickedCardId); 
+				
+				// var updatedBoard = MATCH.STATE.checkMatch(matchedBoard, MATCH.STATE.activeCards, clickedCardId); 
+				MATCH.RENDER.updateElements(updatedBoard, gameElement); 
+
+				// if pair found, don't cool down. but still reset.
+
+				// this will return a boolean value that will be passed to the cooldown 
+
+				var pairFoundTrue = MATCH.STATE.isPairFound(matchedBoard, MATCH.STATE.activeCards);
+				console.log('Pair Found - ' + pairFoundTrue); 
+				
+				// EmptyCardsAfterCooldown 
+				MATCH.ACTION.startCoolDownIfMaxCards(matchedBoard, MATCH.STATE.activeCards.length); 
+			}
 			console.log('active cards - ' + MATCH.STATE.activeCards); 
 		}; 
 	}; 
 
-	MATCH.ACTION.startCoolDownIfMaxCards = function (totalActiveCards) {
+	MATCH.ACTION.startCoolDownIfMaxCards = function (matchedBoard, totalActiveCards) {
+		
 		if ( totalActiveCards === 2 ) { 
+			
 			var coolDown;  
 			var resetActiveCards = function () {
 				MATCH.STATE.activeCards = []; 
 				console.log('activeCards reset'); 
-			}
+			} 
+
 			coolDowncoolDown = window.setTimeout(resetActiveCards, 1000); 
 		}; 
 	}
@@ -184,7 +229,6 @@
 		var gameElement = MATCH.RENDER.createBoard(matchedBoard);
 		
 		MATCH.ACTION.addEvents(matchedBoard, gameElement, MATCH.ACTION.cardClick); 
-
 	};
 
 	MATCH.ACTION.init(); 
