@@ -11,8 +11,7 @@
 	MATCH.STATE.game = 0; 
 
 	MATCH.STATE.board = [];
-	MATCH.STATE.totalCardsActive = 0;  
-	MATCH.STATE.activeCards; 
+	MATCH.STATE.activeCards = []; 
 
 	MATCH.UTIL = {}; 
 
@@ -35,9 +34,6 @@
 		} 
 		return array; 
 	}
-
-	MATCH.STATE.cards = function () {  
-	} 
 
 	MATCH.STATE.populateBoard = function (board, columns, rows) { 
 		var initColObj = function (array) {
@@ -153,21 +149,30 @@
 
 			var clickedCardId = this.idNumber;  
 
-			if ( MATCH.STATE.totalCardsActive == 2 ) {
+			console.log(clickedCardId); 
+			console.log(MATCH.STATE.activeCards[0]);
+
+			if (( MATCH.STATE.activeCards.length === 2)) {
+
 				console.log('wait for the cooldown'); 
+
+			} else if (MATCH.STATE.activeCards[0] === clickedCardId) {
+
+				console.log('you already chose that');
+
 			} else {
+
 				var updatedBoard = MATCH.STATE.update(matchedBoard, clickedCardId); 
 				MATCH.RENDER.update(updatedBoard, gameElement);
+				MATCH.STATE.activeCards.push(this.idNumber); 
 			}
-
-			console.log('cards active - ' + MATCH.STATE.totalCardsActive); 
-			console.log('card ID - ' + clickedCardId); 
-
-			MATCH.STATE.totalCardsActive === 2 ? MATCH.STATE.totalCardsActive = 2 : MATCH.STATE.totalCardsActive += 1;
+			
+			console.log(this) 
+			console.log('active cards - ' + MATCH.STATE.activeCards);
+			
+			 
 		}; 
-	};
-
-	MATCH
+	}; 
 
 	MATCH.ACTION.init = function () {
 		
