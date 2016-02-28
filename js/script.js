@@ -64,7 +64,7 @@
 			var randPosition = positions[randNumPositionArray];  
 			populatedBoard[i].pairGroup = randPosition; 
 			positions.splice(randNumPositionArray, 1); 
-		}
+		} 
 
 		return populatedBoard; 
 	}; 
@@ -122,7 +122,6 @@
 		document.getElementById(gameElement.id).remove();
 		MATCH.RENDER.createBoard(updatedBoard);
 		MATCH.ACTION.addEvents(updatedBoard, gameElement, MATCH.ACTION.cardClick); 
-
 	}; 
 
 	MATCH.ACTION.addEvents = function (matchedBoard, gameElement, eventCallback) {
@@ -143,36 +142,36 @@
 	MATCH.ACTION.cardClick = function (matchedBoard, gameElement) {
 
 		// context is element 
-		var that = this; 
+		var that = this;
 
-		return function () {
+		return function () { 
 
 			var clickedCardId = this.idNumber;  
-
-			console.log(clickedCardId); 
-			console.log(MATCH.STATE.activeCards[0]);
-
-			if (( MATCH.STATE.activeCards.length === 2)) {
-
-				console.log('wait for the cooldown'); 
-
+			if (( MATCH.STATE.activeCards.length > 1)) {
+				console.log('wait for the coolDown');
 			} else if (MATCH.STATE.activeCards[0] === clickedCardId) {
-
 				console.log('you already chose that');
-
 			} else {
-
 				var updatedBoard = MATCH.STATE.update(matchedBoard, clickedCardId); 
 				MATCH.RENDER.update(updatedBoard, gameElement);
-				MATCH.STATE.activeCards.push(this.idNumber); 
+				MATCH.STATE.activeCards.push(clickedCardId); 
+				MATCH.ACTION.startCoolDownIfMaxCards(MATCH.STATE.activeCards.length); 
 			}
-			
-			console.log(this) 
-			console.log('active cards - ' + MATCH.STATE.activeCards);
-			
-			 
+
+			console.log('active cards - ' + MATCH.STATE.activeCards); 
 		}; 
 	}; 
+
+	MATCH.ACTION.startCoolDownIfMaxCards = function (totalActiveCards) {
+		if ( totalActiveCards === 2 ) { 
+			var coolDown;  
+			var resetActiveCards = function () {
+				MATCH.STATE.activeCards = []; 
+				console.log('activeCards reset'); 
+			}
+			coolDowncoolDown = window.setTimeout(resetActiveCards, 1000); 
+		}; 
+	}
 
 	MATCH.ACTION.init = function () {
 		
