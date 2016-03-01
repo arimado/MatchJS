@@ -70,10 +70,10 @@
 		return populatedBoard; 
 	};
 
-	MATCH.STATE.activateClickedCards = function (matchedBoard, cardID) { 
-		
+	MATCH.STATE.activateClickedCards = function (matchedBoard, cardID) {  
 		var updatedBoard;  
 		matchedBoard[cardID].active = true;
+		matchedBoard[cardID].found = true; 
 		updatedBoard = matchedBoard; 
 		return updatedBoard; 
 	};
@@ -82,8 +82,10 @@
 		var pairsCheckedBoard; 
 		var card1, card2; 
 		if (activeCardsArray.length == 2) {
+
 			card1PairGroup = updatedBoard[activeCardsArray[0]].pairGroup; 
 			card2PairGroup = updatedBoard[activeCardsArray[1]].pairGroup; 
+
 			if (card1PairGroup === card2PairGroup) {
 				return true; 
 
@@ -110,9 +112,9 @@
 
 			var currentDardStateData = matchedBoard[idNumber].active;  
 
-			var currentCardElement = document.createElement('div');
+			var currentCardElement = document.createElement('div'); 
 			var currentCardPairGroup = document.createElement('p'); 
-			var currentCardState = document.createElement('p'); 
+			var currentCardState = document.createElement('p');	
 			var currentCardContent = document.createElement('p'); 
 
 			currentCardPairGroup.innerHTML = card.pairGroup; 	
@@ -138,23 +140,34 @@
 		return gameElement; 
 	};
 
-	MATCH.RENDER.updateElements = function (updatedBoard, gameElement) {
-
+	MATCH.RENDER.updateElements = function (updatedBoard, gameElement) { 
 		document.getElementById(gameElement.id).remove();
-		MATCH.RENDER.createBoard(updatedBoard);
+		MATCH.RENDER.createBoard(updatedBoard); 
 		MATCH.ACTION.addEvents(updatedBoard, gameElement, MATCH.ACTION.cardClick); 
 	};
 
 	MATCH.ACTION.addEvents = function (matchedBoard, gameElement, eventCallback) {
-		
+
 		var cardElements = document.getElementsByClassName('card'); 
 		var forEach = Array.prototype.forEach; 
 
-		var addListeners = function (card) {
-			card.addEventListener('click', MATCH.ACTION.cardClick(matchedBoard, gameElement)); 
+		console.dir(cardElements);
+		console.dir(matchedBoard); 
+
+		var addListeners = function (card, i) {
+			var pairFound = matchedBoard[i].found;
+			var pairActive = matchedBoard[i].active; 
+			if (pairFound) {
+				return; 
+			} else if (pairActive) {
+				return; 
+			} else {
+				card.addEventListener('click', MATCH.ACTION.cardClick(matchedBoard, gameElement)); 
+			}
 		}
 
-		forEach.apply(cardElements, [addListeners]); 
+		forEach.apply(cardElements, [addListeners]);  
+
 		var matchedEventBoard = matchedBoard; 
 
 		return matchedEventBoard; 
@@ -165,38 +178,26 @@
 		return function () { 
 			var clickedCardId = this.idNumber;  // THIS! 
 
-			// If two cards are already chosen 
-			if (( MATCH.STATE.activeCards.length > 1)) {
-				console.log('wait for the coolDown');
+				// On CLICK 
+				MATCH.STATE.activeCards.push(clickedCardId);
+				var updatedBoard = MATCH.STATE.activateClickedCards(matchedBoard, clickedCardId);
+				MATCH.RENDER.updateElements(updatedBoard, gameElement);
 
-			// If you are choosing the same card 
-			} else if (MATCH.STATE.activeCards[0] === clickedCardId) {
-				console.log('you already chose that');
-			
-			// If you are choosing 2 different cards 
-			} else {
-
-				// update active cards 
-				MATCH.STATE.activeCards.push(clickedCardId); 
-				var updatedBoard = MATCH.STATE.activateClickedCards(matchedBoard, clickedCardId); 
-				MATCH.RENDER.updateElements(updatedBoard, gameElement); 
-
-				var pairFound = MATCH.STATE.isPairFound(updatedBoard, MATCH.STATE.activeCards);
+				// On Click CoolDown 
+				var pairFound = MATCH.STATE.isPairFound(updatedBoard, MATCH.STATE.activeCards); 
 				var updatedPairsBoard = MATCH.ACTION.resetCardsAfterCoolDown(updatedBoard, gameElement, MATCH.STATE.activeCards.length, pairFound); 
-			}
-
+			
 			console.log('active cards - ' + MATCH.STATE.activeCards); 
 		}; 
 	};
 
-	MATCH.ACTION.resetCardsAfterCoolDown = function (updatedBoard, gameElement, totalActiveCards, pairFound) {
-		
+	MATCH.ACTION.resetCardsAfterCoolDown = function (updatedBoard, gameElement, totalActiveCards, pairFound) { 
 		var coolDown;
 		var resetActiveCards = function () {
 				MATCH.STATE.activeCards = []; 
 				MATCH.RENDER.updateElements(updatedBoard, gameElement); 
 				console.log('activeCards reset'); 
-			};  
+			}; 
 
 		if ( totalActiveCards === 2 ) { 
 			if (pairFound) {
@@ -204,8 +205,10 @@
 			} else {
 				// turn active cards to false; 
 				updatedBoard[MATCH.STATE.activeCards[0]].active = false; 
-				updatedBoard[MATCH.STATE.activeCards[1]].active = false; 				
-				coolDown = window.setTimeout(resetActiveCards, 1000); 
+				updatedBoard[MATCH.STATE.activeCards[1]].active = false; 
+				updatedBoard[MATCH.STATE.activeCards[0]].found = false; 
+				updatedBoard[MATCH.STATE.activeCards[1]].found = false; 
+				coolDown = window.setTimeout(resetActiveCards, 1000);  
 			}
 		}
 	};
