@@ -6,7 +6,7 @@
 	MATCH.RENDER = {}; 
 	MATCH.ACTION = {}; 
 
-	MATCH.STATE.columns = 6; 
+	MATCH.STATE.columns = 5; 
 	MATCH.STATE.rows = 4; 
 	MATCH.STATE.game = 0; 
 
@@ -14,6 +14,8 @@
 	MATCH.STATE.activeCards = [];
 
 	MATCH.UTIL = {};
+
+
 
 	MATCH.UTIL.random = function (min, max) {
 		if (max == null) {
@@ -94,7 +96,6 @@
 	};
 
 	MATCH.RENDER.createBoard = function (matchedBoard) { 
-
 		var wrapDiv = document.getElementById('wrap');
 		var gameElement = document.createElement('div'); 
 		var idNumber = 0; 
@@ -118,7 +119,11 @@
 
 			currentCardElement.idNumber = idNumber;
 			currentCardElement.className = 'card';
+
 			currentCardPairGroup.className = 'pairGroup'; 
+			currentCardState.className = 'state'; 
+			currentCardContent.className = 'content'; 
+
 
 			gameElement.appendChild(currentCardElement); 
 
@@ -176,7 +181,7 @@
 			
 			console.log('active cards - ' + MATCH.STATE.activeCards); 
 		}; 
-	};
+	}; 
 
 	MATCH.ACTION.resetActiveCards = function (updatedBoard, gameElement) {
 		return function () { 

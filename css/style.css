@@ -53,16 +53,24 @@ body {
 	font-family: arial; 
 }
 
+#wrap {
+	margin: auto;
+	display: flex; 
+	width: 100%;
+	border: 1px solid red;
+}
+
 .card {
 	border: 1px solid black;
 	display: inline-block; 
-	padding: 10px;
-	margin: 3px;
+	width: 20%;
+	position: relative;
 }
 
-p {
-	margin: ;
+.content {
+	position: absolute; 
 }
+
 
 .pairGroup {
 	font-size: 2em;
