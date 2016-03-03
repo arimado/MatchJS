@@ -54,26 +54,57 @@ body {
 }
 
 #wrap {
-	margin: auto;
-	display: flex; 
+	margin: auto; 
 	width: 100%;
-	border: 1px solid red;
+	
+}
+
+.matchGame {
+  	display: -webkit-flex;
+	display: flex;
+	-webkit-align-items: center;
+	align-items: center;
+	-webkit-justify-content: center;
+	justify-content: center;
+	/* You can set flex-wrap and flex-direction individually */
+	-webkit-flex-direction: row;
+	flex-direction: row;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+	/* Or do it all in one line with flex flow */
+	-webkit-flex-flow: row wrap;
+	flex-flow: row wrap;
+	/* tweak the where items line up on the row */
+	/* valid values are: flex-start, flex-end, space-between, space-around, stretch */
+	-webkit-align-content: stretch;
+	align-content: stretch;
 }
 
 .card {
-	border: 1px solid black;
 	display: inline-block; 
-	width: 20%;
+	width: 25%;
+	
 	position: relative;
 }
 
+.cardInner {
+	height: 300px;
+	border: 1px solid white;
+	padding: 40px;
+	background: #ccc;
+}
+
 .content {
-	position: absolute; 
+	
 }
 
 
 .pairGroup {
 	font-size: 2em;
 	text-align: center;
+}
+
+.state {
+	display: none;
 }
 

@@ -39,7 +39,7 @@
 	MATCH.STATE.cardObjectStructure = function (array) {
 		cardObject = {
 			active: false, 
-			content: "string of content",
+			content: '&nbsp;var&nbsp;memoizer&nbsp;=&nbsp;function&nbsp;(memo,&nbsp;fundemental)&nbsp;{&nbsp;&nbsp;</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;shell&nbsp;=&nbsp;function&nbsp;(n)&nbsp;{&nbsp;&nbsp;</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;result&nbsp;=&nbsp;memo[n];&nbsp;&nbsp;</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(typeof&nbsp;result&nbsp;!==&nbsp;&quot;number&quot;)&nbsp;{&nbsp;&nbsp;</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;=&nbsp;fundemental(shell,&nbsp;n);&nbsp;&nbsp;</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;memo[n]&nbsp;=&nbsp;result;&nbsp;&nbsp;&nbsp;</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;result;&nbsp;&nbsp;&nbsp;</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;};&nbsp;&nbsp;&nbsp;</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;shell;&nbsp;&nbsp;&nbsp;</br>&nbsp;};&nbsp;&nbsp;&nbsp;</br>',
 			pairGroup: 0, 
 			found: false 
 		}; 
@@ -102,35 +102,38 @@
 		var state = 0; 
 
 		gameElement.id = 'match' + (MATCH.STATE.game + 1);
+		gameElement.className = 'matchGame';
 
 		wrapDiv.appendChild(gameElement); 
 
 		matchedBoard.forEach( function (card) { 
 
 			var currentDardStateData = matchedBoard[idNumber].active;  
+
 			var currentCardElement = document.createElement('div'); 
-			var currentCardPairGroup = document.createElement('p'); 
-			var currentCardState = document.createElement('p');	
-			var currentCardContent = document.createElement('p'); 
+			var currentCardElementInner = document.createElement('div'); 
+			var currentCardPairGroup = document.createElement('p');
+			var currentCardState = document.createElement('p');
+			var currentCardContent = document.createElement('p');
 
 			currentCardPairGroup.innerHTML = card.pairGroup; 	
 			currentCardState.innerHTML = card.active; 
-			currentCardContent.innerHTML = card.content; 
+			currentCardContent.innerHTML = card.content;
 
 			currentCardElement.idNumber = idNumber;
-			currentCardElement.className = 'card';
+			currentCardElement.className = 'card'; 
+			currentCardElementInner.className = 'cardInner'; 
 
 			currentCardPairGroup.className = 'pairGroup'; 
 			currentCardState.className = 'state'; 
-			currentCardContent.className = 'content'; 
-
+			currentCardContent.className = 'content';  
 
 			gameElement.appendChild(currentCardElement); 
+			currentCardElement.appendChild(currentCardElementInner); 
 
-			currentCardElement.appendChild(currentCardPairGroup);
-			currentCardElement.appendChild(currentCardState);  
-
-			if (currentDardStateData) currentCardElement.appendChild(currentCardContent); 
+			currentCardElementInner.appendChild(currentCardPairGroup);
+			currentCardElementInner.appendChild(currentCardState);
+			if (currentDardStateData) currentCardElementInner.appendChild(currentCardContent); 
 
 			idNumber += 1; 
 		});  
