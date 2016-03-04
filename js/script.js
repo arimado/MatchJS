@@ -136,12 +136,14 @@
 			gameElement.appendChild(currentCardElement); 
 			currentCardElement.appendChild(currentCardElementInner); 
 
-			currentCardElementInner.appendChild(currentCardPairGroup);
+			
 			currentCardElementInner.appendChild(currentCardState);
-			currentCardElementInner.style.backgroundColor = '#CCC'
+			
 
+			
 			if (currentDardStateData) {
-				currentCardElementInner.appendChild(currentCardContent); 
+				// currentCardElementInner.appendChild(currentCardContent); 
+				currentCardElementInner.appendChild(currentCardPairGroup);
 				currentCardElementInner.className = 'cardInner'; 
 			} else {
 				currentCardElementInner.className = 'cardInner clickable'; 
@@ -183,6 +185,7 @@
 
 	MATCH.ACTION.cardClick = function (matchedBoard, gameElement) {
 		return function () { 
+
 			console.log('card-length - ' + MATCH.STATE.activeCards.length); 
 			if (MATCH.STATE.activeCards.length < 2) {
 				var clickedCardId = this.idNumber;  // THIS! 
@@ -214,7 +217,7 @@
 				updatedBoard[MATCH.STATE.activeCards[0]].found = false; 
 				updatedBoard[MATCH.STATE.activeCards[1]].found = false; 
 
-				MATCH.ACTION.fade(cardElements[0]); 
+				
 
 				coolDown = window.setTimeout(MATCH.ACTION.resetActiveCards(updatedBoard, gameElement), 1000);  
 			}
@@ -223,15 +226,14 @@
 
 	MATCH.ACTION.fade = function (node) {
 		console.log(node); 
-		var level = 1; 
+		var level = 0; 
 		var step = function () {
-			var hex = level.toString(16); 
-			node.style.backgroundColor = '#FFFF' + hex + hex; 
-			if (level < 15) {
-				level += 1; 
+			node.style.opacity = level; 
+			if (level < 1) {
+				level += 0.1; 
 				setTimeout(step, 50); 
 			}
-		}
+		} 
 		step(); 
 	};
 

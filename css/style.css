@@ -90,7 +90,7 @@ body {
 	height: 300px;
 	border: 1px solid white;
 	padding: 40px;
-	
+	background: #ccc;
 }
 
 .clickable:hover {
