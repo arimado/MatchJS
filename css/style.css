@@ -83,7 +83,6 @@ body {
 .card {
 	display: inline-block; 
 	width: 25%;
-	
 	position: relative;
 }
 
@@ -91,11 +90,19 @@ body {
 	height: 300px;
 	border: 1px solid white;
 	padding: 40px;
-	background: #ccc;
+	
 }
 
+.clickable:hover {
+	cursor: pointer; 
+	background: black;
+	color: white;
+}
+
+
 .content {
-	
+	font-family: courier; 
+	font-size: 13px;
 }
 
 
@@ -105,6 +112,7 @@ body {
 }
 
 .state {
-	display: none;
+	
 }
+
 
