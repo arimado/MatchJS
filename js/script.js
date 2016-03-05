@@ -1,15 +1,25 @@
 (function () {
 
+	// RENDER ENGINE GOALS 
+
+	// - do the single event listener thing that goes on the parent 
+	// - create a createDiv function 
+
+	// - i need a function that gives me the active state and previous state and compares the two 
+	// - these two states would be the virtual DOM kind of thing 
+	// - all i want to be doing is manipulting stuff on the DATA and for that to be reflected with my render function 
+
 	// REACTIVE JS LIBRARY -------------------------------------
 	// *********************************************************
 
 	var SNOOP = {};
 
 	SNOOP.createDiv = function () {
-		
 
-		
-	}; 
+		// create a div with a specified attributes and 
+		// 
+
+	};  
 
 	// ********************************************************
 	// --------------------------------------------------------
@@ -111,6 +121,9 @@
 
 	MATCH.RENDER.createBoard = function (matchedBoard) { 
 
+		// COMAPRE new and previous DATA 
+		// COMPARE 
+
 		var wrapDiv = document.getElementById('wrap');
 		var gameElement = document.createElement('div'); 
 		var idNumber = 0; 
@@ -148,6 +161,9 @@
 			currentCardElement.appendChild(currentCardElementInner); 
 
 			currentCardElementInner.appendChild(currentCardState);
+
+			// Here's the state stuff
+			// Try and get rid of clickable later on though 
 			
 			if (currentDardStateData) {
 				// currentCardElementInner.appendChild(currentCardContent); 
