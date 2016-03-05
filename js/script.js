@@ -1,5 +1,19 @@
 (function () {
 
+	// REACTIVE JS LIBRARY -------------------------------------
+	// *********************************************************
+
+	var SNOOP = {};
+
+	SNOOP.createDiv = function () {
+		
+
+		
+	}; 
+
+	// ********************************************************
+	// --------------------------------------------------------
+
 	var MATCH = {};
 
 	MATCH.STATE = {}; 
@@ -14,8 +28,6 @@
 	MATCH.STATE.activeCards = [];
 
 	MATCH.UTIL = {};
-
-
 
 	MATCH.UTIL.random = function (min, max) {
 		if (max == null) {
@@ -67,7 +79,6 @@
 			populatedBoard[i].pairGroup = randPosition; 
 			positions.splice(randNumPositionArray, 1); 
 		} 
-
 		return populatedBoard; 
 	};
 
@@ -96,10 +107,10 @@
 	};
 
 	MATCH.STATE.addActiveCard = function () {
-
 	};
 
 	MATCH.RENDER.createBoard = function (matchedBoard) { 
+
 		var wrapDiv = document.getElementById('wrap');
 		var gameElement = document.createElement('div'); 
 		var idNumber = 0; 
@@ -136,10 +147,7 @@
 			gameElement.appendChild(currentCardElement); 
 			currentCardElement.appendChild(currentCardElementInner); 
 
-			
 			currentCardElementInner.appendChild(currentCardState);
-			
-
 			
 			if (currentDardStateData) {
 				// currentCardElementInner.appendChild(currentCardContent); 
@@ -153,7 +161,7 @@
 		});  
 
 		return gameElement; 
-	};
+	}; 
 
 	MATCH.RENDER.updateElements = function (updatedBoard, gameElement) { 
 		document.getElementById(gameElement.id).remove();
@@ -185,10 +193,10 @@
 
 	MATCH.ACTION.cardClick = function (matchedBoard, gameElement) {
 		return function () { 
-
 			console.log('card-length - ' + MATCH.STATE.activeCards.length); 
 			if (MATCH.STATE.activeCards.length < 2) {
-				var clickedCardId = this.idNumber;  // THIS! 
+				var clickedCardId = this.idNumber;  // THIS!
+
 				// On CLICK 
 				MATCH.STATE.activeCards.push(clickedCardId);
 				var updatedBoard = MATCH.STATE.activateClickedCards(matchedBoard, clickedCardId);
@@ -197,7 +205,6 @@
 				// On Click CoolDown 
 				var pairFound = MATCH.STATE.isPairFound(updatedBoard, MATCH.STATE.activeCards); 
 				var updatedPairsBoard = MATCH.ACTION.coolDown(updatedBoard, gameElement, MATCH.STATE.activeCards.length, pairFound); 
-				
 				console.log('active cards - ' + MATCH.STATE.activeCards); 
 			}
 		}; 
