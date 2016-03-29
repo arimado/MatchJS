@@ -16,6 +16,10 @@
 	// i think that's what react does?
 	// then we'll just clean up the code after. Cool.
 
+	// ------- CURRENT
+
+	//
+
 	// REACTIVE JS LIBRARY -------------------------------------
 	// *********************************************************
 
@@ -24,6 +28,7 @@
 	SNOOP.createDiv = function () {
 
 		// create a div with a specified attributes an
+		//
 
 	};
 
@@ -32,7 +37,7 @@
 		var previousBoard = null;
 		// compares 2 arrays of objects
 		// finds the difference
-		// returns the index 
+		// returns the index
 
 		return function () {
 
@@ -74,7 +79,6 @@
 		var rows = loopSpec.cols;
 		var cols = loopSpec.rows;
 		var totalObjects = rows * cols;
-
 		for (i = 0; i < totalObjects; i += 1) {
 			loopSpec.loopFunction(array);
 		}
@@ -97,19 +101,25 @@
 	};
 
 	MATCH.STATE.populatePairs = function (populatedBoard) {
+
 		var totalObjects = populatedBoard.length;
 		var positions = [];
 		var totalPositions;
 
+		// POPULATE possible matches into single array
+		// REFACTOR: could put position.push(i) twice in a single loop
 		for (i = 0; i < totalObjects / 2; i += 1) positions.push(i);
 		for (i = 0; i < totalObjects / 2; i += 1) positions.push(i);
 
 		totalPositions = positions.length;
 
 		for (i = 0; i < totalObjects; i += 1) {
+			// Get a randum number from the position Array
 			var randNumPositionArray = MATCH.UTIL.random(0, positions.length - 1);
 			var randPosition = positions[randNumPositionArray];
+			// Put that random number in cards array
 			populatedBoard[i].pairGroup = randPosition;
+			// get rid of that number from the positions array
 			positions.splice(randNumPositionArray, 1);
 		}
 		return populatedBoard;
@@ -251,7 +261,6 @@
 			console.log('card-length - ' + MATCH.STATE.activeCards.length);
 			if (MATCH.STATE.activeCards.length < 2) {
 				var clickedCardId = this.idNumber;  // THIS!
-
 				// On CLICK
 				MATCH.STATE.activeCards.push(clickedCardId);
 				var updatedBoard = MATCH.STATE.updateData(matchedBoard, clickedCardId);
@@ -304,6 +313,10 @@
 		}
 	}
 
+
+	// INITIALISE BOARD
+	// initialise board with set columns and rows
+	// 1. initialise a one dimensional array of objects with set properties 
 
 	MATCH.ACTION.init = function () {
 
