@@ -1,0 +1,16 @@
+{
+  "name": "match-js",
+  "version": "1.0.0",
+  "description": "Match JS using browserify for serperating concerns",
+  "main": "./js/app.js",
+  "scripts": {
+    "build": "browserify ./js/main.js/ -o ./js/bundle.js",
+    "watch": "watchify ./js/main.js/ -o ./js/bundle.js"
+  },
+  "author": "Jeremy Arimado",
+  "license": "MIT",
+  "dependencies": {
+    "browserify": "^13.0.0",
+    "watchify": "^3.7.0"
+  }
+}
